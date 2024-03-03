@@ -6,6 +6,10 @@ provider:
   name: aws
   runtime: nodejs18.x
   stage: ${opt:stage, 'dev'}
+  environment:
+    AUTH0_CLIENT_ID: ${env:AUTH0_CLIENT_ID}
+    AUTH0_DOMAIN: ${env:AUTH0_DOMAIN}
+    AUTH0_CLIENT_SECRET: ${env:AUTH0_CLIENT_SECRET}
 
 plugins:
   - serverless-plugin-monorepo
@@ -13,17 +17,15 @@ plugins:
 functions:
   login:
     handler: ./dist/handlers/login.handler
-    environment: 
-      AUTH0_CLIENT_ID: ${env:AUTH0_CLIENT_ID}
-      AUTH0_DOMAIN: ${env:AUTH0_DOMAIN}
-      AUTH0_CLIENT_SECRET: ${env:AUTH0_CLIENT_SECRET}
     events:
       - httpApi:
           method: POST 
           path: /login
+  authorizer:
+    handler: ./dist/handlers/authorizer.handler
 
-package: 
-  exclude: 
-    - src/**/*.ts 
-    - node_modules/.bin/** 
-    - '*.json'
+  package: 
+    exclude: 
+      - src/**/*.ts 
+      - node_modules/.bin/** 
+      - '*.json'

@@ -8,7 +8,8 @@
   },
   "exports":{
     ".": {"import":"./dist/index.js", "require": "./dist/index.js", "types":"./dist/index.d.ts"},
-    "./middlewares": {"import":"./dist/middlewares/index.js","require": "./dist/middlewares/index.js","types": "./dist/middlewares/index.d.ts" }
+    "./middlewares": {"import":"./dist/middlewares/index.js","require": "./dist/middlewares/index.js","types": "./dist/middlewares/index.d.ts" },
+    "./types":{"types": "./dist/types/index.d.ts"}
   },
   "devDependencies": {
     "@types/aws-lambda": "^8.10.133",
