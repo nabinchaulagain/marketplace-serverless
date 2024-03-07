@@ -1,0 +1,27 @@
+productsTable:
+  Type: AWS::DynamoDB::Table
+  Properties:
+    TableName: ${self:custom.productsTable.name} 
+    AttributeDefinitions:
+      - AttributeName: id
+        AttributeType: S
+      - AttributeName: userId
+        AttributeType: S
+    KeySchema:
+      - AttributeName: id 
+        KeyType: HASH
+    GlobalSecondaryIndexes:
+      -
+        IndexName: "userIdGsi"
+        KeySchema:
+          -
+            AttributeName: "userId"
+            KeyType: "HASH"
+        Projection:
+          ProjectionType: "KEYS_ONLY"
+        ProvisionedThroughput:
+          ReadCapacityUnits: 1
+          WriteCapacityUnits: 1
+    ProvisionedThroughput:
+      ReadCapacityUnits: 1
+      WriteCapacityUnits: 1

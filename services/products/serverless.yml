@@ -1,0 +1,26 @@
+service: marketplace-products-service
+frameworkVersion: '3'
+useDotenv: true
+
+provider:
+  name: aws
+  runtime: nodejs18.x
+  stage: ${opt:stage, 'dev'}
+
+plugins:
+  - serverless-plugin-monorepo
+
+resources:
+  Resources:
+    productsTable: ${file('./resources/dynamodb/productsTable.yml'):productsTable}
+    
+package: 
+    exclude: 
+      - src/**/*.ts 
+      - node_modules/.bin/** 
+      - '*.json'
+
+custom:
+  productsTable:
+    name: ${env:PRODUCTS_TABLE_NAME}
+

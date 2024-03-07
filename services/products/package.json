@@ -1,0 +1,23 @@
+{
+  "name": "@marketplace/products",
+  "version": "1.0.0",
+  "scripts": {
+    "build": "tsc --build --force && tsc-alias",
+    "predeploy": "yarn build",
+    "deploy": "sls deploy"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "serverless": "^3.38.0",
+    "serverless-plugin-monorepo": "^0.11.0",
+    "tsc-alias": "^1.8.8",
+    "typescript": "^5.3.3"
+  },
+  "dependencies": {
+    "aws-lambda": "^1.0.7",
+    "zod": "^3.22.4",
+    "@marketplace/common": "^1.0.0"
+  }
+}
