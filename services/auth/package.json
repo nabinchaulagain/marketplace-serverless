@@ -18,8 +18,7 @@
   },
   "scripts": {
     "build": "babel --out-dir dist --extensions \".ts\" --source-maps inline src",
-    "deploy": "yarn build && sls deploy",
-    "package": "tsc && sls package"
+    "deploy": "yarn build && sls deploy"
   },
   "dependencies": {
     "@marketplace/common": "^1.0.0",

@@ -3,24 +3,35 @@
   "version": "1.0.0",
   "private": true,
   "license": "MIT",
-  "scripts":{
+  "scripts": {
     "build": "tsc && tsc-alias"
   },
-  "exports":{
-    ".": {"import":"./dist/index.js", "require": "./dist/index.js", "types":"./dist/index.d.ts"},
-    "./middlewares": {"import":"./dist/middlewares/index.js","require": "./dist/middlewares/index.js","types": "./dist/middlewares/index.d.ts" },
-    "./types":{"types": "./dist/types/index.d.ts"}
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "require": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    },
+    "./middlewares": {
+      "import": "./dist/middlewares/index.js",
+      "require": "./dist/middlewares/index.js",
+      "types": "./dist/middlewares/index.d.ts"
+    },
+    "./types": {
+      "types": "./dist/types/index.d.ts"
+    }
   },
   "devDependencies": {
     "@types/aws-lambda": "^8.10.133",
     "tsc-alias": "^1.8.8",
     "typescript": "^5.3.3"
   },
-
   "dependencies": {
-    "@middy/core": "^4.2.4",
+    "@middy/core": " ^4.6.4",
     "@middy/http-error-handler": "^4.2.4",
     "@middy/http-event-normalizer": "^4.2.4",
+    "@middy/http-json-body-parser": "^4.2.4",
+    "http-errors": "^2.0.0",
     "zod": "^3.22.4"
   }
 }

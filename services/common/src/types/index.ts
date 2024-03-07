@@ -1,3 +1,5 @@
+import { type APIGatewayProxyEventV2WithRequestContext } from 'aws-lambda';
+
 export interface AuthenticatedUser {
     id: string;
     name: string;
@@ -12,3 +14,6 @@ export interface AuthenticatedHttpRequestContext {
         };
     };
 }
+
+export type AuthenticatedHttpRequest =
+    APIGatewayProxyEventV2WithRequestContext<AuthenticatedHttpRequestContext>;
