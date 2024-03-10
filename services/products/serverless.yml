@@ -6,9 +6,34 @@ provider:
   name: aws
   runtime: nodejs18.x
   stage: ${opt:stage, 'dev'}
+  environment:
+    PRODUCTS_TABLE_NAME: ${self:custom.productsTable.name}
+  iamRoleStatements:
+    - Effect: Allow
+      Action: 
+      - dynamodb:PutItem
+      Resource: 
+        - ${self:custom.productsTable.arn}
+  authorizer: 
 
+  httpApi:
+    authorizers:
+      requireAuthentication:
+        type: request
+        functionArn: !ImportValue ${self:custom.authorizerFunction.exportName}
+     
 plugins:
   - serverless-plugin-monorepo
+
+functions:
+  addProduct:
+    handler: ./dist/handlers/addProduct.handler
+    events:
+      - httpApi:
+          method: POST
+          path: /
+          authorizer:
+            name: requireAuthentication
 
 resources:
   Resources:
@@ -23,4 +48,12 @@ package:
 custom:
   productsTable:
     name: ${env:PRODUCTS_TABLE_NAME}
+    arn: !GetAtt productsTable.Arn
+  authorizerFunction:
+    exportName:
+      Fn::Join:
+        - "-"
+        - - 'sls-marketplace-auth-service'
+          - ${opt:stage, 'dev'}
+          - 'AuthorizerLambdaFunctionQualifiedArn'
 

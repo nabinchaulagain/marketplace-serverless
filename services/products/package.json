@@ -10,14 +10,19 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "@types/uuid": "^9.0.8",
     "serverless": "^3.38.0",
     "serverless-plugin-monorepo": "^0.11.0",
     "tsc-alias": "^1.8.8",
     "typescript": "^5.3.3"
   },
   "dependencies": {
+    "@aws-sdk/client-dynamodb": "^3.528.0",
+    "@aws-sdk/lib-dynamodb": "^3.528.0",
+    "@marketplace/common": "^1.0.0",
     "aws-lambda": "^1.0.7",
-    "zod": "^3.22.4",
-    "@marketplace/common": "^1.0.0"
+    "pino": "^8.19.0",
+    "uuid": "^9.0.1",
+    "zod": "^3.22.4"
   }
 }
