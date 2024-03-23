@@ -23,6 +23,8 @@ async function addProduct(event: AuthenticatedHttpRequest): Promise<Response> {
     const document = {
         id: uuidv4(),
         userId: event.requestContext.authorizer.lambda.user.id,
+        creationDate: Date.now(),
+        inStock: 'true',
         ...requestBody,
     };
 

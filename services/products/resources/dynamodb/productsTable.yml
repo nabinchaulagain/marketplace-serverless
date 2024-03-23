@@ -7,18 +7,34 @@ productsTable:
         AttributeType: S
       - AttributeName: userId
         AttributeType: S
+      - AttributeName: "creationDate"
+        AttributeType: N
+      - AttributeName: "inStock"
+        AttributeType: S
     KeySchema:
       - AttributeName: id 
         KeyType: HASH
+      - AttributeName: "creationDate"
+        KeyType: "RANGE"
     GlobalSecondaryIndexes:
-      -
-        IndexName: "userIdGsi"
+      - IndexName: "inStockCreationDateGsi"
+        KeySchema:
+          - AttributeName: "inStock"
+            KeyType: "HASH"
+          - AttributeName: "creationDate"
+            KeyType: "RANGE"
+        Projection:
+          ProjectionType: "ALL"
+        ProvisionedThroughput:
+          ReadCapacityUnits: 1
+          WriteCapacityUnits: 1
+      - IndexName: "userIdGsi"
         KeySchema:
           -
             AttributeName: "userId"
             KeyType: "HASH"
         Projection:
-          ProjectionType: "KEYS_ONLY"
+          ProjectionType: "ALL"
         ProvisionedThroughput:
           ReadCapacityUnits: 1
           WriteCapacityUnits: 1

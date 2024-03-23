@@ -3440,6 +3440,13 @@ duration@^0.2.2:
     d "1"
     es5-ext "~0.10.46"
 
+dynamodb-data-types@^4.0.1:
+  version "4.0.1"
+  resolved "https://registry.yarnpkg.com/dynamodb-data-types/-/dynamodb-data-types-4.0.1.tgz#401264715f0e36b6fdfe976166cdd98da29df9fe"
+  integrity sha512-tzGarrYuMH6PX6wAOOt2tdEb8vvea4NgEKFDcqbHeqwyQ6Pe3QR3nvPsNX4E5SElqfh0HX3dQk4VITbAjNvRIA==
+  dependencies:
+    unique-sequence "1.0.2"
+
 electron-to-chromium@^1.4.668:
   version "1.4.681"
   resolved "https://registry.yarnpkg.com/electron-to-chromium/-/electron-to-chromium-1.4.681.tgz#5f23fad8aa7e1f64cbb7dd9d15c7e39a1cd7e6e3"
@@ -6829,6 +6836,11 @@ unicode-property-aliases-ecmascript@^2.0.0:
   version "2.1.0"
   resolved "https://registry.yarnpkg.com/unicode-property-aliases-ecmascript/-/unicode-property-aliases-ecmascript-2.1.0.tgz#43d41e3be698bd493ef911077c9b131f827e8ccd"
   integrity sha512-6t3foTQI9qne+OZoVQB/8x8rk2k1eVy1gRXhV3oFQ5T6R1dqQ1xtin3XqSlx3+ATBkliTaR/hHyJBm+LVPNM8w==
+
+unique-sequence@1.0.2:
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/unique-sequence/-/unique-sequence-1.0.2.tgz#bf62f768d42ac0bc60b310569e0881a8eb329aa2"
+  integrity sha512-Kh1Nz45D36jPWhvG+JDDaHcERB5TzMzM+Gkz+ptFSmWwE2QzfoTzw03GRHA4u3xm17wR/BMVKzBbcWMuKuraVQ==
 
 universalify@^2.0.0:
   version "2.0.1"
