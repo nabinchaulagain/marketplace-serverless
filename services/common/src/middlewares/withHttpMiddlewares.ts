@@ -14,14 +14,18 @@ function withHttpMiddlewares<T>(
     handler:
         | ((event: APIGatewayProxyEventV2) => unknown)
         | ((event: AuthenticatedHttpRequest) => unknown),
-    schema: ZodSchema,
+    schema?: ZodSchema,
 ): MiddyfiedHandler<any, T> {
-    return middy()
+    const newHandler = middy()
         .use(httpErrorHandler())
         .use(httpEventNormalizer())
-        .use(httpJsonBodyParser())
-        .use(zodValidator(schema))
-        .handler(handler as unknown as APIGatewayProxyHandler);
+        .use(httpJsonBodyParser());
+
+    if (schema !== undefined) {
+        newHandler.use(zodValidator(schema));
+    }
+
+    return newHandler.handler(handler as unknown as APIGatewayProxyHandler);
 }
 
 export default withHttpMiddlewares;
