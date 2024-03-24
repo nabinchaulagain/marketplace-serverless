@@ -20,7 +20,7 @@
     "prepare": "husky"
   },
   "lint-staged": {
-    "services/**/*.{ts,tsx}": [
+    "{services,app}/**/*.{ts,tsx}": [
       "prettier --write",
       "eslint --fix"
     ]
@@ -29,6 +29,7 @@
     "lint-staged": "^15.2.2"
   },
   "workspaces":[
-    "services/*"
+    "services/*",
+    "app"
   ]
 }
