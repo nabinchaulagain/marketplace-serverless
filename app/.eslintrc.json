@@ -4,5 +4,8 @@
       "next": {
         "rootDir": "./"
       }
+  },
+ "rules": {
+   "@typescript-eslint/strict-boolean-expressions": "off"
   }
 }

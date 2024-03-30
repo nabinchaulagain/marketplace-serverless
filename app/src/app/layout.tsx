@@ -4,6 +4,7 @@ import { type ReactNode } from 'react';
 
 import './globals.css';
 import { UserProvider } from '@auth0/nextjs-auth0/client';
+import Navbar from '@/components/navbar';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -20,7 +21,10 @@ export default function RootLayout({
     return (
         <html lang="en">
             <body className={inter.className}>
-                <UserProvider>{children}</UserProvider>
+                <UserProvider>
+                    <Navbar />
+                    {children}
+                </UserProvider>
             </body>
         </html>
     );
