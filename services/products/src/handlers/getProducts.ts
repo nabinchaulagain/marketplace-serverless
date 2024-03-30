@@ -1,20 +1,28 @@
-import pino from 'pino';
-import { QueryCommand, DynamoDBClient } from '@aws-sdk/client-dynamodb';
+import {
+    QueryCommand,
+    DynamoDBClient,
+    type AttributeValue as DynamoDBAttributeValue,
+} from '@aws-sdk/client-dynamodb';
 import { withHttpMiddlewares } from '@marketplace/common';
-import { DynamoDBDocumentClient } from '@aws-sdk/lib-dynamodb';
+import {
+    DynamoDBDocumentClient,
+    type QueryCommandInput,
+} from '@aws-sdk/lib-dynamodb';
 import { AttributeValue } from 'dynamodb-data-types';
 import { type Product } from '@/types/product';
+import { type AuthenticatedHttpRequest } from '@marketplace/common/types';
 
 const client = new DynamoDBClient();
 const docClient = DynamoDBDocumentClient.from(client);
-const logger = pino();
 
 interface Response {
     data: Product[];
+    lastEvaluatedKey: Record<string, unknown>;
 }
 
-async function getProducts(): Promise<Response> {
-    const query = new QueryCommand({
+async function getProducts(event: AuthenticatedHttpRequest): Promise<Response> {
+    const pageSize = +(event?.queryStringParameters?.pageSize ?? 10);
+    const queryCommandParams: QueryCommandInput = {
         IndexName: 'inStockCreationDateGsi',
         TableName: process.env.PRODUCTS_TABLE_NAME,
         ScanIndexForward: false,
@@ -22,12 +30,43 @@ async function getProducts(): Promise<Response> {
         ExpressionAttributeValues: {
             ':inStock': { S: 'true' },
         },
-    });
+        Limit: pageSize,
+    };
 
-    const result = await docClient.send(query);
-    logger.debug(result);
+    if (event?.queryStringParameters?.lastEvaluatedKey) {
+        queryCommandParams.ExclusiveStartKey = AttributeValue.wrap(
+            JSON.parse(event.queryStringParameters.lastEvaluatedKey) as Record<
+                string,
+                unknown
+            >,
+        );
+    }
 
-    return { data: result.Items?.map(AttributeValue.unwrap<Product>) ?? [] };
+    const results: Array<Record<string, DynamoDBAttributeValue>> = [];
+    let lastEvaluatedKey;
+    while (results.length < pageSize) {
+        const query = new QueryCommand(queryCommandParams);
+
+        const { Items, LastEvaluatedKey } = await docClient.send(query);
+        if (LastEvaluatedKey) {
+            queryCommandParams.ExclusiveStartKey = LastEvaluatedKey;
+        }
+
+        lastEvaluatedKey = LastEvaluatedKey;
+
+        if (Items) {
+            results.push(...Items);
+        }
+
+        if (!lastEvaluatedKey) {
+            break;
+        }
+    }
+
+    return {
+        data: results?.map(AttributeValue.unwrap<Product>) ?? [],
+        lastEvaluatedKey: AttributeValue.unwrap(lastEvaluatedKey),
+    };
 }
 
 export const handler = withHttpMiddlewares(getProducts);
