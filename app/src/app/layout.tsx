@@ -5,6 +5,7 @@ import { type ReactNode } from 'react';
 import './globals.css';
 import { UserProvider } from '@auth0/nextjs-auth0/client';
 import Navbar from '@/components/navbar';
+import QueryProvider from '@/providers/QueryProvider';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -22,8 +23,10 @@ export default function RootLayout({
         <html lang="en">
             <body className={inter.className}>
                 <UserProvider>
-                    <Navbar />
-                    {children}
+                    <QueryProvider>
+                        <Navbar />
+                        {children}
+                    </QueryProvider>
                 </UserProvider>
             </body>
         </html>
