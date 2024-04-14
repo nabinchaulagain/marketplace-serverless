@@ -20,25 +20,25 @@ interface Response {
     lastEvaluatedKey: Record<string, unknown>;
 }
 
-async function getProducts(event: AuthenticatedHttpRequest): Promise<Response> {
+async function getMyProducts(
+    event: AuthenticatedHttpRequest,
+): Promise<Response> {
     const pageSize = +(event?.queryStringParameters?.pageSize ?? 10);
 
     const queryCommandParams: QueryCommandInput = {
-        IndexName: 'inStockCreationDateGsi',
         TableName: process.env.PRODUCTS_TABLE_NAME,
         ScanIndexForward: false,
-        KeyConditionExpression: '#inStock = :inStock',
+        IndexName: 'userIdGsi',
+        KeyConditionExpression: '#userId = :userId',
         ExpressionAttributeNames: {
-            '#inStock': 'inStock',
             '#userId': 'userId',
         },
-        FilterExpression: '#userId <> :userId',
         ExpressionAttributeValues: {
-            ':inStock': { S: 'true' },
             ':userId': { S: event.requestContext.authorizer.lambda.user.id },
         },
         Limit: pageSize,
     };
+
     if (event?.queryStringParameters?.lastEvaluatedKey) {
         queryCommandParams.ExclusiveStartKey = AttributeValue.wrap(
             JSON.parse(event.queryStringParameters.lastEvaluatedKey) as Record<
@@ -75,4 +75,4 @@ async function getProducts(event: AuthenticatedHttpRequest): Promise<Response> {
     };
 }
 
-export const handler = withHttpMiddlewares(getProducts);
+export const handler = withHttpMiddlewares(getMyProducts);

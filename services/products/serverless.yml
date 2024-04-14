@@ -41,7 +41,7 @@ functions:
     events:
       - httpApi:
           method: POST
-          path: /
+          path: /products
           authorizer:
             name: requireAuthentication
   getProducts:
@@ -49,7 +49,15 @@ functions:
     events:
       - httpApi:
           method: GET 
-          path: /
+          path: /products
+          authorizer:
+            name: requireAuthentication
+  getMyProducts:
+    handler: ./dist/handlers/getMyProducts.handler
+    events:
+      - httpApi:
+          method: GET 
+          path: /products/me
           authorizer:
             name: requireAuthentication
 

@@ -23,7 +23,7 @@ export async function getProducts(
         );
     }
     const response = await fetch(
-        `${process.env.NEXT_PUBLIC_API_BASE_URL}?${queryParams.toString()}`,
+        `${process.env.NEXT_PUBLIC_API_BASE_URL}/products?${queryParams.toString()}`,
         {
             headers: {
                 Authorization: `Bearer ${accessToken}`,
