@@ -4,10 +4,10 @@ import {
     QueryClient,
     dehydrate,
 } from '@tanstack/react-query';
-import ProductList from '@/components/product-list/ProductList';
 import { getAccessToken } from '@/utils/auth';
 import { getProducts } from '@/api/products';
 import { QueryKeys } from '@/constants/query';
+import AllProducts from '@/components/my-products/AllProducts';
 
 export default async function Home(): Promise<ReactNode> {
     const queryClient = new QueryClient();
@@ -25,7 +25,7 @@ export default async function Home(): Promise<ReactNode> {
 
     return (
         <HydrationBoundary state={dehydrate(queryClient)}>
-            <ProductList accessToken={accessToken} />
+            <AllProducts accessToken={accessToken} />
         </HydrationBoundary>
     );
 }

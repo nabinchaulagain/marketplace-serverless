@@ -33,3 +33,27 @@ export async function getProducts(
     );
     return await response.json();
 }
+
+export async function getMyProducts(
+    accessToken: string,
+    lastEvaluatedKey?: unknown,
+): Promise<ProductListResponse> {
+    const queryParams = new URLSearchParams();
+    queryParams.append('pageSize', '5');
+    if (lastEvaluatedKey) {
+        queryParams.append(
+            'lastEvaluatedKey',
+            JSON.stringify(lastEvaluatedKey),
+        );
+    }
+    const response = await fetch(
+        `${process.env.NEXT_PUBLIC_API_BASE_URL}/products/me?${queryParams.toString()}`,
+        {
+            headers: {
+                Authorization: `Bearer ${accessToken}`,
+                Accept: 'application/json',
+            },
+        },
+    );
+    return await response.json();
+}

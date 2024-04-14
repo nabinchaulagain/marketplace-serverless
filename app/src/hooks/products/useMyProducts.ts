@@ -1,5 +1,5 @@
 'use client';
-import { getProducts, type ProductListResponse } from '@/api/products';
+import { getMyProducts, type ProductListResponse } from '@/api/products';
 import { QueryKeys } from '@/constants/query';
 import {
     useInfiniteQuery,
@@ -7,13 +7,13 @@ import {
 } from '@tanstack/react-query';
 import isEmpty from 'lodash/isEmpty';
 
-export default function useProductList(
+export default function useMyProducts(
     accessToken: string,
 ): UseInfiniteQueryResult<{ pages: ProductListResponse[] }> {
     return useInfiniteQuery({
-        queryKey: [QueryKeys.ALL_PRODUCTS],
+        queryKey: [QueryKeys.MY_PRODUCTS],
         queryFn: async ({ pageParam: lastEvaluatedKey }) => {
-            return await getProducts(accessToken, lastEvaluatedKey);
+            return await getMyProducts(accessToken, lastEvaluatedKey);
         },
         initialPageParam: null,
         getNextPageParam: (lastPage: ProductListResponse) => {

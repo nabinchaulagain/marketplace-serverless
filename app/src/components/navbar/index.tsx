@@ -38,6 +38,11 @@ export default function Navbar(): ReactNode {
                             <DropdownMenuLabel>{user.name}</DropdownMenuLabel>
                             <DropdownMenuSeparator />
                             <DropdownMenuItem>
+                                <Link href="/my-products">My products</Link>
+                            </DropdownMenuItem>
+
+                            <DropdownMenuSeparator />
+                            <DropdownMenuItem>
                                 <LogOutIcon className="mr-3 h-5 w-5" />
                                 <a href="/api/auth/logout">Logout</a>
                             </DropdownMenuItem>
