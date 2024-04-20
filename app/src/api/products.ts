@@ -1,3 +1,6 @@
+import { type addProductSchema } from '@/schemas/products';
+import { type z } from 'zod';
+
 export interface ProductListResponse {
     data: Product[];
     lastEvaluatedKey: unknown;
@@ -56,4 +59,23 @@ export async function getMyProducts(
         },
     );
     return await response.json();
+}
+
+export async function createProduct(
+    accessToken: string,
+    body: z.TypeOf<typeof addProductSchema>,
+): Promise<void> {
+    const response = await fetch(
+        `${process.env.NEXT_PUBLIC_API_BASE_URL}/products`,
+        {
+            headers: {
+                Authorization: `Bearer ${accessToken}`,
+                Accept: 'application/json',
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(body),
+            method: 'POST',
+        },
+    );
+    await response.json();
 }
