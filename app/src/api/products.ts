@@ -10,7 +10,13 @@ export interface Product {
     id: string;
     name: string;
     price: number;
-    imageURL: string;
+    imageUrl: string;
+}
+
+export interface ProductCreationRequestPayload {
+    name: string;
+    price: number;
+    image: { base64EncodedContent: string; name: string };
 }
 
 export async function getProducts(
@@ -34,7 +40,8 @@ export async function getProducts(
             },
         },
     );
-    return await response.json();
+    const products = await response.json();
+    return products;
 }
 
 export async function getMyProducts(

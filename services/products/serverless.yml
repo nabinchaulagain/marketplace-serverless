@@ -8,6 +8,7 @@ provider:
   stage: ${opt:stage, 'dev'}
   environment:
     PRODUCTS_TABLE_NAME: ${self:custom.productsTable.name}
+    PRODUCT_IMAGES_BUCKET_NAME: ${env:PRODUCT_IMAGES_BUCKET_NAME}
   iamRoleStatements:
     - Effect: Allow
       Action: 
@@ -23,6 +24,19 @@ provider:
       - dynamodb:PutItem
       Resource:
         - ${self:custom.productsTable.arn}
+
+    - Effect: Allow
+      Action:
+      - 's3:*'
+      Resource:
+        - !GetAtt productImagesBucket.Arn
+        - Fn::Join:
+          - ""
+          - - !GetAtt productImagesBucket.Arn
+            - "/*"
+
+
+
   authorizer: 
 
   httpApi:
@@ -64,7 +78,8 @@ functions:
 resources:
   Resources:
     productsTable: ${file('./resources/dynamodb/productsTable.yml'):productsTable}
-    
+    productImagesBucket: ${file('./resources/s3/productImagesBucket.yml'):productImagesBucket}
+
 package: 
     exclude: 
       - src/**/*.ts 

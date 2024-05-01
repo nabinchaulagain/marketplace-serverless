@@ -25,9 +25,8 @@ export function ProductCard({ product }: Props): ReactNode {
                     className="h-[300px] mx-auto"
                     width={300}
                     height={300}
-                    src={product.imageURL}
+                    src={product.imageUrl}
                     alt={product.name}
-                    priority={true}
                 />
             </CardContent>
         </Card>

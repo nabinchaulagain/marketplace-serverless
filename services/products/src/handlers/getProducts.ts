@@ -9,14 +9,17 @@ import {
     type QueryCommandInput,
 } from '@aws-sdk/lib-dynamodb';
 import { AttributeValue } from 'dynamodb-data-types';
-import { type Product } from '@/types/product';
+import { type ProductResponse, type Product } from '@/types/product';
 import { type AuthenticatedHttpRequest } from '@marketplace/common/types';
+import { S3Client } from '@aws-sdk/client-s3';
+import { getPresignedURL } from '@/utils/file';
 
+const s3Client = new S3Client();
 const client = new DynamoDBClient();
 const docClient = DynamoDBDocumentClient.from(client);
 
 interface Response {
-    data: Product[];
+    data: ProductResponse[];
     lastEvaluatedKey: Record<string, unknown>;
 }
 
@@ -69,8 +72,20 @@ async function getProducts(event: AuthenticatedHttpRequest): Promise<Response> {
         }
     }
 
+    const products = results?.map(AttributeValue.unwrap<Product>);
+    const productImages = await Promise.all(
+        products.map(
+            async ({ imageKey }) =>
+                await getPresignedURL({ key: imageKey ?? '', s3Client }),
+        ),
+    );
+
     return {
-        data: results?.map(AttributeValue.unwrap<Product>) ?? [],
+        data: products.map((product, index) => ({
+            ...product,
+            imageUrl: productImages[index] ?? '',
+        })),
+
         lastEvaluatedKey: AttributeValue.unwrap(lastEvaluatedKey),
     };
 }

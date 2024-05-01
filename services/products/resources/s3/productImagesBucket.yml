@@ -1,0 +1,4 @@
+productImagesBucket:
+    Type: 'AWS::S3::Bucket'
+    Properties:
+      BucketName: ${env:PRODUCT_IMAGES_BUCKET_NAME}
