@@ -1,0 +1,19 @@
+{
+  "name": "@marketplace/orders",
+  "version": "1.0.0",
+  "license": "MIT",
+  "scripts": {
+    "build": "tsc --build --force && tsc-alias",
+    "predeploy": "yarn build",
+    "deploy": "sls deploy"
+  },
+  "devDependencies": {
+    "serverless": "^3.38.0",
+    "serverless-plugin-monorepo": "^0.11.0",
+    "tsc-alias": "^1.8.8",
+    "typescript": "^5.4.5"
+  },
+  "dependencies": {
+    "@marketplace/common": "^1.0.0"
+  }
+}

@@ -1,0 +1,35 @@
+service: marketplace-orders-service
+frameworkVersion: '3'
+useDotenv: true
+
+provider:
+  name: aws
+  runtime: nodejs18.x
+  stage: ${opt:stage, 'dev'}
+  authorizer: 
+
+  httpApi:
+    cors: true
+    authorizers:
+      requireAuthentication:
+        type: request
+        functionArn: !ImportValue ${self:custom.authorizerFunction.exportName}
+     
+plugins:
+  - serverless-plugin-monorepo
+
+package: 
+    exclude: 
+      - src/**/*.ts 
+      - node_modules/.bin/** 
+      - '*.json'
+
+custom:
+  authorizerFunction:
+    exportName:
+      Fn::Join:
+        - "-"
+        - - 'sls-marketplace-auth-service'
+          - ${opt:stage, 'dev'}
+          - 'AuthorizerLambdaFunctionQualifiedArn'
+
