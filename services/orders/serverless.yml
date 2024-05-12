@@ -15,6 +15,28 @@ provider:
         type: request
         functionArn: !ImportValue ${self:custom.authorizerFunction.exportName}
      
+functions:
+  test1:
+    handler: ./dist/handlers/test1.handler
+    events:
+      - eventBridge:
+          eventBus: !Ref ordersEventBus
+          pattern:
+            detail:
+              type:
+                - CREATE_ORDER
+resources:
+  Resources:
+    ordersEventBus: 
+        Type: AWS::Events::EventBus
+        Properties: 
+            Name: "orders-event-bus"
+  Outputs:
+    OrdersEventBusArn:
+      Value: !GetAtt ordersEventBus.Arn
+      Export:
+          Name: "orders-event-bus-arn"
+
 plugins:
   - serverless-plugin-monorepo
 

@@ -9,6 +9,7 @@ provider:
   environment:
     PRODUCTS_TABLE_NAME: ${self:custom.productsTable.name}
     PRODUCT_IMAGES_BUCKET_NAME: ${env:PRODUCT_IMAGES_BUCKET_NAME}
+    ORDERS_EVENT_BUS_ARN: !ImportValue orders-event-bus-arn
   iamRoleStatements:
     - Effect: Allow
       Action: 
@@ -18,6 +19,7 @@ provider:
           - ""
           - - ${self:custom.productsTable.arn}
             - "/*"
+        - ${self:custom.productsTable.arn}
 
     - Effect: Allow
       Action:
@@ -35,7 +37,11 @@ provider:
           - - !GetAtt productImagesBucket.Arn
             - "/*"
 
-
+    - Effect: Allow
+      Action:
+      - 'events:PutEvents'
+      Resource:
+        - !ImportValue orders-event-bus-arn
 
   authorizer: 
 
@@ -72,6 +78,14 @@ functions:
       - httpApi:
           method: GET 
           path: /products/me
+          authorizer:
+            name: requireAuthentication
+  buyProduct:
+    handler: ./dist/handlers/buyProduct.handler
+    events:
+      - httpApi:
+          method: GET 
+          path: /products/{id}/buy
           authorizer:
             name: requireAuthentication
 
