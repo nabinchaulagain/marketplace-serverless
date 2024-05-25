@@ -17,7 +17,8 @@
     "prettier": "^3.2.5"
   },
   "scripts": {
-    "prepare": "husky"
+    "prepare": "husky",
+    "deploy:backend": "turbo deploy --filter=@marketplace/auth --filter=@marketplace/orders --filter=@marketplace/products --filter=@marketplace/common"
   },
   "lint-staged": {
     "{services,app}/**/*.{ts,tsx}": [
@@ -26,9 +27,10 @@
     ]
   },
   "dependencies": {
-    "lint-staged": "^15.2.2"
+    "lint-staged": "^15.2.2",
+    "turbo": "^1.13.3"
   },
-  "workspaces":[
+  "workspaces": [
     "services/*",
     "app"
   ]

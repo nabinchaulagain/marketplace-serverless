@@ -9,7 +9,6 @@ import {
     type APIGatewayProxyEventV2,
 } from 'aws-lambda';
 import { type ZodSchema } from 'zod';
-import httpMultipartBodyParser from '@middy/http-multipart-body-parser';
 
 function withHttpMiddlewares<T>(
     handler:
@@ -20,7 +19,6 @@ function withHttpMiddlewares<T>(
     const newHandler = middy()
         .use(httpErrorHandler())
         .use(httpEventNormalizer())
-        .use(httpMultipartBodyParser())
         .use(httpJsonBodyParser());
 
     if (schema !== undefined) {

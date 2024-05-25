@@ -24,8 +24,8 @@ functions:
   authorizer:
     handler: ./dist/handlers/authorizer.handler
 
-  package: 
-    exclude: 
+package: 
+  exclude: 
       - src/**/*.ts 
       - node_modules/.bin/** 
       - '*.json'

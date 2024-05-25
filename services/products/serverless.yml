@@ -84,7 +84,7 @@ functions:
     handler: ./dist/handlers/buyProduct.handler
     events:
       - httpApi:
-          method: GET 
+          method: POST
           path: /products/{id}/buy
           authorizer:
             name: requireAuthentication
