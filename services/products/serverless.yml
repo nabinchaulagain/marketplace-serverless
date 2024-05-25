@@ -48,7 +48,7 @@ provider:
   httpApi:
     cors: true
     authorizers:
-      requireAuthentication:
+      authenticationRequired:
         type: request
         functionArn: !ImportValue ${self:custom.authorizerFunction.exportName}
      
@@ -63,7 +63,7 @@ functions:
           method: POST
           path: /products
           authorizer:
-            name: requireAuthentication
+            name: authenticationRequired
   getProducts:
     handler: ./dist/handlers/getProducts.handler
     events:
@@ -71,7 +71,7 @@ functions:
           method: GET 
           path: /products
           authorizer:
-            name: requireAuthentication
+            name: authenticationRequired
   getMyProducts:
     handler: ./dist/handlers/getMyProducts.handler
     events:
@@ -79,7 +79,7 @@ functions:
           method: GET 
           path: /products/me
           authorizer:
-            name: requireAuthentication
+            name: authenticationRequired
   buyProduct:
     handler: ./dist/handlers/buyProduct.handler
     events:
@@ -87,7 +87,7 @@ functions:
           method: POST
           path: /products/{id}/buy
           authorizer:
-            name: requireAuthentication
+            name: authenticationRequired
 
 resources:
   Resources:

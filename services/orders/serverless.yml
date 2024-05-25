@@ -11,7 +11,7 @@ provider:
   httpApi:
     cors: true
     authorizers:
-      requireAuthentication:
+      authenticationRequired:
         type: request
         functionArn: !ImportValue ${self:custom.authorizerFunction.exportName}
      

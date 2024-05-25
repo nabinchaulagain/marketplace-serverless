@@ -18,7 +18,7 @@
   },
   "scripts": {
     "prepare": "husky",
-    "deploy:backend": "turbo deploy --filter=@marketplace/auth --filter=@marketplace/orders --filter=@marketplace/products --filter=@marketplace/common"
+    "deploy:backend": "turbo deploy --filter=@marketplace/orders --filter=@marketplace/products --filter=@marketplace/common"
   },
   "lint-staged": {
     "{services,app}/**/*.{ts,tsx}": [
