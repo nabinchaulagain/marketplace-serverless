@@ -1,0 +1,4 @@
+ordersEventBus: 
+    Type: AWS::Events::EventBus
+    Properties: 
+        Name: "orders-event-bus"

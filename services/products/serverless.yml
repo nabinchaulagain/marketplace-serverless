@@ -43,8 +43,6 @@ provider:
       Resource:
         - !ImportValue orders-event-bus-arn
 
-  authorizer: 
-
   httpApi:
     cors: true
     authorizers:

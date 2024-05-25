@@ -1,0 +1,30 @@
+ordersTable:
+  Type: AWS::DynamoDB::Table
+  Properties:
+    TableName: ${self:custom.ordersTable.name} 
+    AttributeDefinitions:
+      - AttributeName: id
+        AttributeType: S
+      - AttributeName: buyerId
+        AttributeType: S
+      - AttributeName: creationDate
+        AttributeType: N
+    KeySchema:
+      - AttributeName: id 
+        KeyType: HASH
+      - AttributeName: creationDate
+        KeyType: "RANGE"
+    GlobalSecondaryIndexes:
+      - IndexName: "buyerIdGsi"
+        KeySchema:
+          -
+            AttributeName: "buyerId"
+            KeyType: "HASH"
+        Projection:
+          ProjectionType: "ALL"
+        ProvisionedThroughput:
+          ReadCapacityUnits: 1
+          WriteCapacityUnits: 1
+    ProvisionedThroughput:
+      ReadCapacityUnits: 1
+      WriteCapacityUnits: 1

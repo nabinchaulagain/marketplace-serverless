@@ -15,6 +15,7 @@ jobs:
       PRODUCT_IMAGES_BUCKET_NAME: ${{ secrets.PRODUCT_IMAGES_BUCKET_NAME }}
       AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
       AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      ORDERS_TABLE_NAME: ${{ secrets.ORDERS_TABLE_NAME }}
 
     steps:
       - uses: actions/checkout@v4

@@ -13,6 +13,9 @@
     "typescript": "^5.4.5"
   },
   "dependencies": {
-    "@marketplace/common": "^1.0.0"
+    "@aws-sdk/client-dynamodb": "^3.584.0",
+    "@aws-sdk/lib-dynamodb": "^3.584.0",
+    "@marketplace/common": "^1.0.0",
+    "uuid": "^9.0.1"
   }
 }

@@ -6,18 +6,24 @@ provider:
   name: aws
   runtime: nodejs18.x
   stage: ${opt:stage, 'dev'}
-  authorizer: 
-
   httpApi:
     cors: true
     authorizers:
       authenticationRequired:
         type: request
         functionArn: !ImportValue ${self:custom.authorizerFunction.exportName}
-     
+  iamRoleStatements:
+    - Effect: Allow
+      Action:
+      - dynamodb:PutItem
+      Resource:
+        - ${self:custom.ordersTable.arn}
+  environment:
+    ORDERS_TABLE_NAME: ${self:custom.ordersTable.name}
+
 functions:
-  test1:
-    handler: ./dist/handlers/test1.handler
+  createOrder:
+    handler: ./dist/handlers/createOrder.handler
     events:
       - eventBridge:
           eventBus: !Ref ordersEventBus
@@ -27,10 +33,8 @@ functions:
                 - CREATE_ORDER
 resources:
   Resources:
-    ordersEventBus: 
-        Type: AWS::Events::EventBus
-        Properties: 
-            Name: "orders-event-bus"
+    ordersEventBus: ${file('./resources/eventbridge/ordersEventBus.yml'):ordersEventBus}
+    ordersTable: ${file('./resources/dynamodb/ordersTable.yml'):ordersTable}
   Outputs:
     OrdersEventBusArn:
       Value: !GetAtt ordersEventBus.Arn
@@ -55,3 +59,6 @@ custom:
           - ${opt:stage, 'dev'}
           - 'AuthorizerLambdaFunctionQualifiedArn'
 
+  ordersTable:
+    name: ${env:ORDERS_TABLE_NAME}
+    arn: !GetAtt ordersTable.Arn

@@ -42,6 +42,7 @@ async function buyProduct(event: AuthenticatedHttpRequest): Promise<any> {
                 DetailType: 'Create order for products.',
                 Detail: JSON.stringify({
                     type: 'CREATE_ORDER',
+                    buyerId: event.requestContext.authorizer.lambda.user.id,
                     products: [product],
                 }),
                 EventBusName: process.env.ORDERS_EVENT_BUS_ARN,
