@@ -1,0 +1,5 @@
+createOrdersQueue:
+      Type: AWS::SQS::Queue
+      Properties: 
+        QueueName: "create-orders-queue"
+        VisibilityTimeout: 60

@@ -25,16 +25,16 @@ functions:
   createOrder:
     handler: ./dist/handlers/createOrder.handler
     events:
-      - eventBridge:
-          eventBus: !Ref ordersEventBus
-          pattern:
-            detail:
-              type:
-                - CREATE_ORDER
+      - sqs:
+          arn: !GetAtt createOrdersQueue.Arn
+
 resources:
   Resources:
     ordersEventBus: ${file('./resources/eventbridge/ordersEventBus.yml'):ordersEventBus}
     ordersTable: ${file('./resources/dynamodb/ordersTable.yml'):ordersTable}
+    createOrderRule: ${file('./resources/eventbridge/createOrderRule.yml'):createOrderRule}
+    createOrdersQueue: ${file('./resources/sqs/createOrdersQueue.yml'):createOrdersQueue}
+    createOrderQueuePolicy: ${file('./resources/sqs/createOrderQueuePolicy.yml'):createOrderQueuePolicy}
   Outputs:
     OrdersEventBusArn:
       Value: !GetAtt ordersEventBus.Arn
@@ -62,3 +62,6 @@ custom:
   ordersTable:
     name: ${env:ORDERS_TABLE_NAME}
     arn: !GetAtt ordersTable.Arn
+
+  ordersEventBus:
+    name: "orders-event-bus"

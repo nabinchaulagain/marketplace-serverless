@@ -1,0 +1,13 @@
+createOrderRule:
+  Type: AWS::Events::Rule
+  Properties: 
+    EventBusName: ${self:custom.ordersEventBus.name}
+    Description: "Routes create order events to a SQS queue"
+    EventPattern:
+      detail:
+        type:
+          - CREATE_ORDER
+    Targets: 
+      - 
+        Arn: !GetAtt createOrdersQueue.Arn
+        Id: 'createOrdersQueue'
