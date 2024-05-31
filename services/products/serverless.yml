@@ -103,10 +103,4 @@ custom:
     name: ${env:PRODUCTS_TABLE_NAME}
     arn: !GetAtt productsTable.Arn
   authorizerFunction:
-    exportName:
-      Fn::Join:
-        - "-"
-        - - 'sls-marketplace-auth-service'
-          - ${opt:stage, 'dev'}
-          - 'AuthorizerLambdaFunctionQualifiedArn'
-
+    exportName: 'authorizerArn'

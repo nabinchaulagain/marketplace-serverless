@@ -52,12 +52,7 @@ package:
 
 custom:
   authorizerFunction:
-    exportName:
-      Fn::Join:
-        - "-"
-        - - 'sls-marketplace-auth-service'
-          - ${opt:stage, 'dev'}
-          - 'AuthorizerLambdaFunctionQualifiedArn'
+    exportName: authorizerArn
 
   ordersTable:
     name: ${env:ORDERS_TABLE_NAME}

@@ -1,0 +1,2 @@
+createOrderSuccessNotification:
+  Type: AWS::Events::Rule
