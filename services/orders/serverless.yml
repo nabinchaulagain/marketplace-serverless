@@ -16,8 +16,14 @@ provider:
     - Effect: Allow
       Action:
       - dynamodb:PutItem
+      - dynamodb:Query
       Resource:
         - ${self:custom.ordersTable.arn}
+        - Fn::Join:
+          - ""
+          - - ${self:custom.ordersTable.arn}
+            - "/*"
+
   environment:
     ORDERS_TABLE_NAME: ${self:custom.ordersTable.name}
 
@@ -27,6 +33,14 @@ functions:
     events:
       - sqs:
           arn: !GetAtt createOrdersQueue.Arn
+  fetchOrders:
+    handler: ./dist/handlers/fetchOrders.handler
+    events:
+      - httpApi:
+          method: GET
+          path: /orders
+          authorizer:
+            name: authenticationRequired
 
 resources:
   Resources:
