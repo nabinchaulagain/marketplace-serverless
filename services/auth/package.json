@@ -4,21 +4,16 @@
   "license": "MIT",
   "devDependencies": {
     "-": "^0.0.1",
-    "@babel/cli": "^7.23.9",
-    "@babel/core": "^7.23.9",
-    "@babel/plugin-transform-modules-commonjs": "^7.23.3",
-    "@babel/preset-env": "^7.23.9",
-    "@babel/preset-typescript": "^7.23.3",
     "@types/aws-lambda": "^8.10.133",
     "@types/http-errors": "^2.0.4",
     "@types/node": "^20.11.17",
-    "babel-plugin-tsconfig-paths-module-resolver": "^1.0.4",
-    "serverless-plugin-monorepo": "^0.11.0",
-    "typescript": "^5.3.3"
+    "esbuild": "^0.21.4",
+    "serverless-plugin-monorepo": "^0.11.0"
   },
   "scripts": {
-    "build": "babel --out-dir dist --extensions \".ts\" --source-maps inline src",
-    "deploy": "sls deploy"
+    "build": "esbuild --minify ./src/**/*.ts --outdir=dist --format=cjs --platform=node --bundle",
+    "deploy": "sls deploy",
+    "check:types": "tsc --noEmit"
   },
   "dependencies": {
     "@marketplace/common": "^1.0.0",
@@ -29,6 +24,7 @@
     "auth0": "^4.3.1",
     "aws-lambda": "^1.0.7",
     "http-errors": "^2.0.0",
+    "typescript": "^5.4.5",
     "zod": "^3.22.4"
   }
 }

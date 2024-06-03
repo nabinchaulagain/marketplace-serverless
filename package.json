@@ -23,12 +23,14 @@
   "lint-staged": {
     "{services,app}/**/*.{ts,tsx}": [
       "prettier --write",
-      "eslint --fix"
+      "eslint --fix",
+      "turbo check:types"
     ]
   },
   "dependencies": {
     "lint-staged": "^15.2.2",
-    "turbo": "^1.13.3"
+    "turbo": "^1.13.3",
+    "typescript": "^5.4.5"
   },
   "workspaces": [
     "services/*",

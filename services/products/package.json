@@ -2,8 +2,9 @@
   "name": "@marketplace/products",
   "version": "1.0.0",
   "scripts": {
-    "build": "tsc --build && tsc-alias",
-    "deploy": "sls deploy"
+    "build": "esbuild --minify ./src/**/*.ts --outdir=dist --format=cjs --platform=node --bundle --external:@marketplace/common",
+    "deploy": "sls deploy",
+    "check:types": "tsc --noEmit"
   },
   "keywords": [],
   "author": "",
@@ -14,8 +15,7 @@
     "@types/uuid": "^9.0.8",
     "serverless": "^3.38.0",
     "serverless-plugin-monorepo": "^0.11.0",
-    "tsc-alias": "^1.8.8",
-    "typescript": "^5.3.3"
+    "esbuild": "^0.21.4"
   },
   "dependencies": {
     "@aws-sdk/client-dynamodb": "^3.528.0",
@@ -29,6 +29,7 @@
     "middy": "^0.36.0",
     "mime-types": "^2.1.35",
     "pino": "^8.19.0",
+    "typescript": "^5.4.5",
     "uuid": "^9.0.1",
     "zod": "^3.22.4"
   }

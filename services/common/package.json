@@ -4,7 +4,8 @@
   "private": true,
   "license": "MIT",
   "scripts": {
-    "build": "tsc && tsc-alias"
+    "build": "esbuild --minify ./src/**/*.ts --outdir=dist --format=cjs --platform=node --bundle",
+    "check:types": "tsc --noEmit"
   },
   "exports": {
     ".": {
@@ -23,6 +24,7 @@
   },
   "devDependencies": {
     "@types/aws-lambda": "^8.10.133",
+    "esbuild": "^0.21.4",
     "tsc-alias": "^1.8.8",
     "typescript": "^5.3.3"
   },
